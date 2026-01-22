@@ -1,4 +1,5 @@
 using System.Text;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using MovieStore.Application.Common.Behaviors;
 using MovieStore.Application.Interfaces;
 using MovieStore.Infrastructure.Data;
+using MovieStore.WebApi.Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +21,15 @@ builder.Services.AddScoped<IMovieStoreDbContext>(
 );
 
 builder.Services.AddMediatR(
-    typeof(MovieStore.Application.Commands.Movie.CreateMovie.CreateMovieCommandHandler).Assembly
+    typeof(MovieStore.Application.ApplicationAssemblyMarker).Assembly
 );
 
 builder.Services.AddAutoMapper(
     typeof(MovieStore.Application.Common.Mappings.MovieProfile).Assembly
+);
+
+builder.Services.AddValidatorsFromAssembly(
+    typeof(MovieStore.Application.Commands.Movie.CreateMovie.CreateMovieCommandValidator).Assembly
 );
 
 builder.Services.AddTransient(
@@ -56,6 +62,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

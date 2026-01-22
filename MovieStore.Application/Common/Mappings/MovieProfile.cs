@@ -1,5 +1,7 @@
 using AutoMapper;
 using MovieStore.Application.Commands.Movie.CreateMovie;
+using MovieStore.Application.Commands.Movie.UpdateMovie;
+using MovieStore.Application.DTOs;
 using MovieStore.Domain.Entities;
 
 namespace MovieStore.Application.Common.Mappings
@@ -11,6 +13,14 @@ namespace MovieStore.Application.Common.Mappings
             CreateMap<CreateMovieCommand, Movie>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(_ => true));
+
+            CreateMap<Movie, MovieDto>()
+                .ForMember(dest => dest.GenreName, opt => opt.MapFrom(src => src.Genre.Name))
+                .ForMember(dest => dest.DirectorFullName, opt => opt.MapFrom(src => $"{src.Director.FirstName} {src.Director.LastName}"));
+
+            CreateMap<UpdateMovieCommand, Movie>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore());
         }
     }
 }
