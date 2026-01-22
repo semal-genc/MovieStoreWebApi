@@ -26,7 +26,7 @@ namespace MovieStore.Infrastructure.Data
 
             modelBuilder.Entity<Movie>().HasQueryFilter(m => m.IsActive);
 
-            modelBuilder.Entity<Movie>().HasMany(m => m.Actors).WithMany(a => a.Movies);
+            modelBuilder.Entity<Movie>().HasMany(m => m.Actors).WithMany(a => a.Movies).UsingEntity(j=>j.ToTable("ActorMovie"));
             modelBuilder.Entity<Customer>().HasMany(m => m.FavoriteGenres).WithMany(g => g.Customers);
 
             modelBuilder.Entity<Director>()

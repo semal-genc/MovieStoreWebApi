@@ -2,6 +2,7 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MovieEntity = MovieStore.Domain.Entities.Movie;
 using MovieStore.Application.Interfaces;
 
 namespace MovieStore.Application.Commands.Movie.CreateMovie
@@ -20,7 +21,7 @@ namespace MovieStore.Application.Commands.Movie.CreateMovie
         public async Task<int> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
         {
             var movieExists = await _context.Movies.AnyAsync(x =>
-                x.Name.ToLower() == request.Name.ToLower() &&
+                x.Name == request.Name &&
                 x.Year == request.Year &&
                 x.DirectorId == request.DirectorId &&
                 x.IsActive,
@@ -41,7 +42,7 @@ namespace MovieStore.Application.Commands.Movie.CreateMovie
             if (!genreExists)
                 throw new InvalidOperationException("Böyle bir tür bulunamadı.");
 
-            var movie = _mapper.Map<Domain.Entities.Movie>(request);
+            var movie = _mapper.Map<MovieEntity>(request);
 
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync(cancellationToken);
