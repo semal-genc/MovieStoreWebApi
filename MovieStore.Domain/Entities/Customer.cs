@@ -9,6 +9,6 @@ namespace MovieStore.Domain.Entities
         public string PasswordHash { get; set; } = null!;
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
-        public ICollection<Genre> FavoriteGenres { get; set; } = new List<Genre>();
+        public ICollection<CustomerFavoriteGenre> FavoriteGenres { get; set; } = new List<CustomerFavoriteGenre>();
     }
 }

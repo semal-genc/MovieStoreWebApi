@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MovieStore.Application;
 using MovieStore.Application.Common.Behaviors;
-using MovieStore.Application.Interfaces;
+using MovieStore.Application.Interfaces.Persistence;
+using MovieStore.Application.Interfaces.Security;
+using MovieStore.Infrastructure.Configuration;
 using MovieStore.Infrastructure.Data;
 using MovieStore.Infrastructure.Security;
 using MovieStore.WebApi.Common.Middleware;
@@ -26,7 +29,7 @@ builder.Services.AddScoped<IMovieStoreDbContext>(
 
 // -------------------- MediatR --------------------
 builder.Services.AddMediatR(
-    typeof(MovieStore.Application.ApplicationAssemblyMarker).Assembly
+    typeof(ApplicationAssemblyMarker).Assembly
 );
 
 // -------------------- AutoMapper --------------------
@@ -34,15 +37,10 @@ builder.Services.AddAutoMapper(
     typeof(MovieStore.Application.Common.Mappings.MovieProfile).Assembly
 );
 
-// -------------------- FluentValidation --------------------
-builder.Services.AddValidatorsFromAssembly(
-    typeof(MovieStore.Application.Commands.Movie.CreateMovie.CreateMovieCommandValidator).Assembly
-);
+// -------------------- FluentValidation (global) --------------------
+builder.Services.AddValidatorsFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
 
-builder.Services.AddTransient(
-    typeof(IPipelineBehavior<,>),
-    typeof(ValidationBehavior<,>)
-);
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 // -------------------- JWT SETTINGS --------------------
 builder.Services.Configure<JwtSettings>(

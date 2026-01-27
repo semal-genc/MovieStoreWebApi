@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MovieStore.Application.Commands.Actor.CreateActor;
-using MovieStore.Application.Commands.Actor.DeleteActor;
-using MovieStore.Application.Commands.Actor.UpdateActor;
-using MovieStore.Application.DTOs;
-using MovieStore.Application.Queries.Actor.GetActorById;
-using MovieStore.Application.Queries.Actor.GetActorList;
+using MovieStore.Application.Features.Actors.Commands.CreateActor;
+using MovieStore.Application.Features.Actors.Commands.DeleteActor;
+using MovieStore.Application.Features.Actors.Commands.UpdateActor;
+using MovieStore.Application.Features.Actors.Dtos;
+using MovieStore.Application.Features.Actors.Queries.GetActorById;
+using MovieStore.Application.Features.Actors.Queries.GetActorList;
 
 namespace MovieStore.WebApi.Controllers
 {

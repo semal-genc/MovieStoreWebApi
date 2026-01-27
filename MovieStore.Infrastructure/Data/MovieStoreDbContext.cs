@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MovieStore.Application.Interfaces;
+using MovieStore.Application.Interfaces.Persistence;
 using MovieStore.Domain.Entities;
 
 namespace MovieStore.Infrastructure.Data
@@ -14,6 +14,7 @@ namespace MovieStore.Infrastructure.Data
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<Genre> Genres => Set<Genre>();
+        public DbSet<CustomerFavoriteGenre> CustomerFavoriteGenres => Set<CustomerFavoriteGenre>();
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -26,8 +27,25 @@ namespace MovieStore.Infrastructure.Data
 
             modelBuilder.Entity<Movie>().HasQueryFilter(m => m.IsActive);
 
-            modelBuilder.Entity<Movie>().HasMany(m => m.Actors).WithMany(a => a.Movies).UsingEntity(j => j.ToTable("ActorMovie"));
-            modelBuilder.Entity<Customer>().HasMany(m => m.FavoriteGenres).WithMany(g => g.Customers);
+            modelBuilder.Entity<Movie>()
+                .HasMany(m => m.Actors)
+                .WithMany(a => a.Movies)
+                .UsingEntity(j => j.ToTable("ActorMovie"));
+
+
+            modelBuilder.Entity<CustomerFavoriteGenre>()
+                .HasKey(x => new { x.CustomerId, x.GenreId });
+
+            modelBuilder.Entity<CustomerFavoriteGenre>()
+                .HasOne(x => x.Customer)
+                .WithMany(c => c.FavoriteGenres)
+                .HasForeignKey(x => x.CustomerId);
+
+            modelBuilder.Entity<CustomerFavoriteGenre>()
+                .HasOne(x => x.Genre)
+                .WithMany(g => g.FavoritedByCustomers)
+                .HasForeignKey(x => x.GenreId);
+
 
             modelBuilder.Entity<Director>()
                 .HasMany(d => d.Movies)
@@ -41,8 +59,10 @@ namespace MovieStore.Infrastructure.Data
                 .HasForeignKey(m => m.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
             modelBuilder.Entity<Movie>().Property(m => m.Price).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Order>().Property(m => m.Price).HasColumnType("decimal(18,2)");
+
 
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Movie)
@@ -62,6 +82,7 @@ namespace MovieStore.Infrastructure.Data
             modelBuilder.Entity<Movie>()
                 .HasIndex(x => new { x.Name, x.Year, x.DirectorId })
                 .IsUnique();
+
 
             modelBuilder.Entity<Genre>().HasData(
                 new Genre { Id = 1, Name = "Action" },

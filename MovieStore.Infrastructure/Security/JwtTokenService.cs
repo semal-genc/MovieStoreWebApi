@@ -2,8 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using MovieStore.Application.Interfaces;
+using MovieStore.Application.Interfaces.Security;
 using MovieStore.Domain.Entities;
+using MovieStore.Infrastructure.Configuration;
 
 namespace MovieStore.Infrastructure.Security
 {

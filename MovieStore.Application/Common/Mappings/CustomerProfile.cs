@@ -1,5 +1,6 @@
 using AutoMapper;
-using MovieStore.Application.Commands.Customer.CreateCustomer;
+using MovieStore.Application.Features.Customers.Commands.CreateCustomer;
+using MovieStore.Application.Features.Customers.Dtos;
 using MovieStore.Domain.Entities;
 
 namespace MovieStore.Application.Common.Mappings
@@ -11,6 +12,8 @@ namespace MovieStore.Application.Common.Mappings
             CreateMap<CreateCustomerCommand, Customer>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<FavoriteGenreDto, CustomerFavoriteGenre>();
         }
     }
 }

@@ -1,8 +1,8 @@
 
 using AutoMapper;
-using MovieStore.Application.Commands.Actor.CreateActor;
-using MovieStore.Application.Commands.Actor.UpdateActor;
-using MovieStore.Application.DTOs;
+using MovieStore.Application.Features.Actors.Commands.CreateActor;
+using MovieStore.Application.Features.Actors.Commands.UpdateActor;
+using MovieStore.Application.Features.Actors.Dtos;
 using MovieStore.Domain.Entities;
 
 namespace MovieStore.Application.Common.Mappings

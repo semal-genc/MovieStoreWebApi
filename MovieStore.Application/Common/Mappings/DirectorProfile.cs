@@ -1,7 +1,7 @@
 using AutoMapper;
-using MovieStore.Application.Commands.Director.CreateDirector;
-using MovieStore.Application.Commands.Director.UpdateDirector;
-using MovieStore.Application.DTOs;
+using MovieStore.Application.Features.Directors.Commands.CreateDirector;
+using MovieStore.Application.Features.Directors.Commands.UpdateDirector;
+using MovieStore.Application.Features.Directors.Dtos;
 using MovieStore.Domain.Entities;
 
 namespace MovieStore.Application.Common.Mappings

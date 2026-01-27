@@ -6,6 +6,6 @@ namespace MovieStore.Domain.Entities
         public string Name { get; set; } = null!;
 
         public ICollection<Movie> Movies { get; set; } = new List<Movie>();
-        public ICollection<Customer> Customers { get; set; } = new List<Customer>();
+        public ICollection<CustomerFavoriteGenre> FavoritedByCustomers { get; set; } = new List<CustomerFavoriteGenre>();
     }
 }

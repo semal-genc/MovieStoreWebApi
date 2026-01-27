@@ -49,21 +49,6 @@ namespace MovieStore.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CustomerGenre", b =>
-                {
-                    b.Property<int>("CustomersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FavoriteGenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomersId", "FavoriteGenresId");
-
-                    b.HasIndex("FavoriteGenresId");
-
-                    b.ToTable("CustomerGenre");
-                });
-
             modelBuilder.Entity("MovieStore.Domain.Entities.Actor", b =>
                 {
                     b.Property<int>("Id")
@@ -139,6 +124,21 @@ namespace MovieStore.Infrastructure.Migrations
                             LastName = "Genç",
                             PasswordHash = "TEMP_HASH"
                         });
+                });
+
+            modelBuilder.Entity("MovieStore.Domain.Entities.CustomerFavoriteGenre", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("CustomerFavoriteGenres");
                 });
 
             modelBuilder.Entity("MovieStore.Domain.Entities.Director", b =>
@@ -325,19 +325,23 @@ namespace MovieStore.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CustomerGenre", b =>
+            modelBuilder.Entity("MovieStore.Domain.Entities.CustomerFavoriteGenre", b =>
                 {
-                    b.HasOne("MovieStore.Domain.Entities.Customer", null)
-                        .WithMany()
-                        .HasForeignKey("CustomersId")
+                    b.HasOne("MovieStore.Domain.Entities.Customer", "Customer")
+                        .WithMany("FavoriteGenres")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MovieStore.Domain.Entities.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("FavoriteGenresId")
+                    b.HasOne("MovieStore.Domain.Entities.Genre", "Genre")
+                        .WithMany("FavoritedByCustomers")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("MovieStore.Domain.Entities.Movie", b =>
@@ -378,6 +382,8 @@ namespace MovieStore.Infrastructure.Migrations
 
             modelBuilder.Entity("MovieStore.Domain.Entities.Customer", b =>
                 {
+                    b.Navigation("FavoriteGenres");
+
                     b.Navigation("Orders");
                 });
 
@@ -388,6 +394,8 @@ namespace MovieStore.Infrastructure.Migrations
 
             modelBuilder.Entity("MovieStore.Domain.Entities.Genre", b =>
                 {
+                    b.Navigation("FavoritedByCustomers");
+
                     b.Navigation("Movies");
                 });
 
