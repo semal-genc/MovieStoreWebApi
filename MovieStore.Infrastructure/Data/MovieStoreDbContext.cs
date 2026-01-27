@@ -26,7 +26,7 @@ namespace MovieStore.Infrastructure.Data
 
             modelBuilder.Entity<Movie>().HasQueryFilter(m => m.IsActive);
 
-            modelBuilder.Entity<Movie>().HasMany(m => m.Actors).WithMany(a => a.Movies).UsingEntity(j=>j.ToTable("ActorMovie"));
+            modelBuilder.Entity<Movie>().HasMany(m => m.Actors).WithMany(a => a.Movies).UsingEntity(j => j.ToTable("ActorMovie"));
             modelBuilder.Entity<Customer>().HasMany(m => m.FavoriteGenres).WithMany(g => g.Customers);
 
             modelBuilder.Entity<Director>()
@@ -55,6 +55,10 @@ namespace MovieStore.Infrastructure.Data
                 .HasForeignKey(o => o.CustomerId)
                 .IsRequired();
 
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.Email)
+                .IsUnique();
+
             modelBuilder.Entity<Movie>()
                 .HasIndex(x => new { x.Name, x.Year, x.DirectorId })
                 .IsUnique();
@@ -78,7 +82,14 @@ namespace MovieStore.Infrastructure.Data
             );
 
             modelBuilder.Entity<Customer>().HasData(
-                new Customer { Id = 1, FirstName = "Semal", LastName = "Genç" }
+                new Customer
+                {
+                    Id = 1,
+                    FirstName = "Semal",
+                    LastName = "Genç",
+                    Email = "semal@test.com",
+                    PasswordHash = "TEMP_HASH"
+                }
             );
 
             modelBuilder.Entity<Movie>().HasData(
