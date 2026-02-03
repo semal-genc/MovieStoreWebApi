@@ -20,8 +20,9 @@ namespace MovieStore.Application.Features.Customers.Commands.CreateCustomer
 
         public async Task<int> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            var emailExists = await _context.Customers
-                .AnyAsync(x => x.Email == request.Email, cancellationToken);
+            var emailExists = await _context.Customers.AnyAsync(
+                x => x.Email.Equals(request.Email, StringComparison.OrdinalIgnoreCase),
+                cancellationToken);
 
             if (emailExists)
                 throw new InvalidOperationException("Bu email zaten kullanılıyor.");

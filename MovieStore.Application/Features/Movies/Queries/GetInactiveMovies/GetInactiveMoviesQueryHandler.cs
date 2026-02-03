@@ -22,7 +22,7 @@ namespace MovieStore.Application.Features.Movies.Queries.GetInactiveMovies
         {
             var movies = await _context.Movies
                 .IgnoreQueryFilters()
-                .Where(m => !m.IsActive) // kesinlikle false
+                .Where(m => !m.IsActive)
                 .ProjectTo<MovieDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

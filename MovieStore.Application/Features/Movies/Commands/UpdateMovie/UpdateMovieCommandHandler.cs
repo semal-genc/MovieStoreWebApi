@@ -38,7 +38,8 @@ namespace MovieStore.Application.Features.Movies.Commands.UpdateMovie
 
             var duplicateExists = await _context.Movies
                 .AnyAsync(m =>
-                    m.Name.ToLower() == request.Name.ToLower() &&
+                    m.Id != request.Id &&
+                    m.Name == request.Name &&
                     m.Year == request.Year &&
                     m.DirectorId == request.DirectorId &&
                     m.IsActive, cancellationToken

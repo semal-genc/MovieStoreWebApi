@@ -2,7 +2,6 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MovieStore.Application.Features.Actors.Dtos;
-using MovieStore.Application.Interfaces;
 using MovieStore.Application.Interfaces.Persistence;
 
 namespace MovieStore.Application.Features.Actors.Queries.GetActorById

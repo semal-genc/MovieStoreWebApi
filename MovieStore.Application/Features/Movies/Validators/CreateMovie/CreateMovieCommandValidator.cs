@@ -7,23 +7,24 @@ namespace MovieStore.Application.Features.Movies.Validators.CreateMovie
     {
         public CreateMovieCommandValidator()
         {
-            RuleFor(x=>x.Name)
-                .NotEmpty().WithMessage("Film adı boş olamaz")
-                .MinimumLength(2).WithMessage("Film adı en az 2 karakter olmalı")
-                .MaximumLength(100);
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Film adı boş olamaz.")
+                .MinimumLength(2).WithMessage("Film adı en az 2 karakter olmalıdır.")
+                .MaximumLength(100).WithMessage("Film adı en fazla 100 karakter olabilir.");
 
-            RuleFor(x=>x.Year)
-                .GreaterThan(1900)
-                .LessThanOrEqualTo(DateTime.Now.Year);
+            RuleFor(x => x.Year)
+                .GreaterThan(1900).WithMessage("Film yılı 1900'dan büyük olmalıdır.")
+                .LessThanOrEqualTo(DateTime.Now.Year)
+                .WithMessage("Film yılı gelecek bir yıl olamaz.");
 
             RuleFor(x => x.Price)
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Film fiyatı 0'dan büyük olmalıdır.");
 
             RuleFor(x => x.GenreId)
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Tür bilgisi seçilmelidir.");
 
             RuleFor(x => x.DirectorId)
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Yönetmen bilgisi seçilmelidir.");
         }
     }
 }

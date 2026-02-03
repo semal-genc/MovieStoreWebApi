@@ -1,7 +1,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieStore.Application.Features.Customers.Dtos;
 using MovieStore.Application.Interfaces.Persistence;
 using MovieStore.Domain.Entities;
 
@@ -38,12 +37,9 @@ namespace MovieStore.Application.Features.Customers.Commands.AddFavoriteGenre
             if (favoriteExists)
                 throw new InvalidOperationException("Bu tür zaten favorilere eklenmiş.");
 
-            _context.CustomerFavoriteGenres.Add(new CustomerFavoriteGenre
-            {
-                CustomerId = request.CustomerId,
-                GenreId = request.GenreId
-            });
+            var favoriteGenre = _mapper.Map<CustomerFavoriteGenre>(request);
 
+            _context.CustomerFavoriteGenres.Add(favoriteGenre);
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

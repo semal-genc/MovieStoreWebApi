@@ -7,15 +7,16 @@ namespace MovieStore.Application.Features.Directors.Validators.UpdateDirector
     {
         public UpdateDirectorCommandValidator()
         {
-            RuleFor(x => x.Id).GreaterThan(0);
+            RuleFor(x => x.Id).GreaterThan(0)
+                .WithMessage("Yönetmen Id sıfırdan büyük olmalıdır.");
 
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .MinimumLength(2);
+                .NotEmpty().WithMessage("Yönetmenin adı boş olamaz.")
+                .MinimumLength(2).WithMessage("Yönetmen adı en az 2 karakter olmalıdır.");
 
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .MinimumLength(2);
+                .NotEmpty().WithMessage("Yönetmenin soyadı boş olamaz.")
+                .MinimumLength(2).WithMessage("Yönetmen soyadı en az 2 karakter olmalıdır.");
         }
     }
 }

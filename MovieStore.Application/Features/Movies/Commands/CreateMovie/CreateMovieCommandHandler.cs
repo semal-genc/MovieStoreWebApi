@@ -2,7 +2,6 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using MovieStore.Application.Interfaces;
 using MovieStore.Application.Interfaces.Persistence;
 using MovieStore.Domain.Entities;
 
@@ -21,12 +20,14 @@ namespace MovieStore.Application.Features.Movies.Commands.CreateMovie
 
         public async Task<int> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
         {
-            var movieExists = await _context.Movies.AnyAsync(x =>
-                x.Name == request.Name &&
-                x.Year == request.Year &&
-                x.DirectorId == request.DirectorId &&
-                x.IsActive,
-                cancellationToken);
+            var movieExists = await _context.Movies
+                .AsNoTracking()
+                .AnyAsync(x =>
+                    x.Name == request.Name &&
+                    x.Year == request.Year &&
+                    x.DirectorId == request.DirectorId &&
+                    x.IsActive,
+                    cancellationToken);
 
             if (movieExists)
                 throw new InvalidOperationException("Bu film zaten mevcut.");
@@ -44,6 +45,7 @@ namespace MovieStore.Application.Features.Movies.Commands.CreateMovie
                 throw new InvalidOperationException("Böyle bir tür bulunamadı.");
 
             var movie = _mapper.Map<Movie>(request);
+            movie.IsActive = true;
 
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync(cancellationToken);

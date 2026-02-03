@@ -8,12 +8,12 @@ namespace MovieStore.Application.Features.Directors.Validators.CreateDirector
         public CreateDirectorCommandValidator()
         {
             RuleFor(x => x.FirstName)
-                .NotEmpty()
-                .MinimumLength(2);
+                .NotEmpty().WithMessage("Yönetmen adı boş olamaz.")
+                .MinimumLength(2).WithMessage("Yönetmen adı en az 2 karakter olmalıdır.");
 
             RuleFor(x => x.LastName)
-                .NotEmpty()
-                .MinimumLength(2);
+                .NotEmpty().WithMessage("Yönetmen soyadı boş olamaz.")
+                .MinimumLength(2).WithMessage("Yönetmen soyadı en az 2 karakter olmalıdır.");
         }
     }
 }

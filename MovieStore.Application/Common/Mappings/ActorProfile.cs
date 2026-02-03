@@ -11,15 +11,19 @@ namespace MovieStore.Application.Common.Mappings
     {
         public ActorProfile()
         {
-            CreateMap<CreateActorCommand, Actor>();
+            CreateMap<CreateActorCommand, Actor>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Movies, opt => opt.Ignore());
 
-            CreateMap<UpdateActorCommand, Actor>();
+            CreateMap<UpdateActorCommand, Actor>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Movies, opt => opt.Ignore());
 
             CreateMap<Actor, ActorDto>()
-            .ForMember(
-                dest => dest.FullName,
-                opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}")
-            );
+                .ForMember(
+                    dest => dest.FullName,
+                    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}")
+                );
 
             CreateMap<Actor, ActorDetailDto>()
                 .ForMember(

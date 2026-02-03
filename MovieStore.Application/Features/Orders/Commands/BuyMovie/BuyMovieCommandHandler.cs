@@ -20,10 +20,17 @@ namespace MovieStore.Application.Features.Orders.Commands.BuyMovie
         public async Task<Unit> Handle(BuyMovieCommand request, CancellationToken cancellationToken)
         {
             var movie = await _context.Movies
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.MovieId, cancellationToken);
 
             if (movie is null)
                 throw new InvalidOperationException("Film bulunamadı.");
+
+            var customerExists = await _context.Customers
+                .AnyAsync(x => x.Id == request.CustomerId, cancellationToken);
+
+            if (!customerExists)
+                throw new InvalidOperationException("Müşteri bulunamadı.");
 
             var alreadyPurchased = await _context.Orders.AnyAsync(x =>
                 x.MovieId == request.MovieId &&
@@ -35,6 +42,7 @@ namespace MovieStore.Application.Features.Orders.Commands.BuyMovie
 
             var order = _mapper.Map<Order>(request);
             order.Price = movie.Price;
+            order.PurchaseDate = DateTime.UtcNow;
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync(cancellationToken);

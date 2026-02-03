@@ -10,9 +10,13 @@ namespace MovieStore.Application.Common.Mappings
     {
         public DirectorProfile()
         {
-            CreateMap<CreateDirectorCommand, Director>();
+            CreateMap<CreateDirectorCommand, Director>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Movies, opt => opt.Ignore());
 
-            CreateMap<UpdateDirectorCommand, Director>();
+            CreateMap<UpdateDirectorCommand, Director>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Movies, opt => opt.Ignore());
 
             CreateMap<Director, DirectorDto>()
                 .ForMember(

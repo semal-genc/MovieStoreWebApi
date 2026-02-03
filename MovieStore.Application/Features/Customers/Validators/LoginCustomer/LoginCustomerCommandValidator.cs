@@ -8,10 +8,12 @@ namespace MovieStore.Application.Features.Customers.Validators.LoginCustomer
         public LoginCustomerCommandValidator()
         {
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .EmailAddress();
 
             RuleFor(x => x.Password)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                 .MinimumLength(6);
         }

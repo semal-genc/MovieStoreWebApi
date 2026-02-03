@@ -19,11 +19,12 @@ namespace MovieStore.Application.Features.Directors.Commands.CreateDirector
 
         public async Task<int> Handle(CreateDirectorCommand request, CancellationToken cancellationToken)
         {
-            var diectorExists = await _context.Directors.AnyAsync(x =>
-                x.FirstName == request.FirstName &&
-                x.LastName == request.LastName, cancellationToken);
+            var directorExists = await _context.Directors.AnyAsync(x =>
+                x.FirstName.Equals(request.FirstName, StringComparison.OrdinalIgnoreCase) &&
+                x.LastName.Equals(request.LastName, StringComparison.OrdinalIgnoreCase),
+                cancellationToken);
 
-            if (diectorExists)
+            if (directorExists)
                 throw new InvalidOperationException("Bu yönetmen zaten mevcut.");
 
             var director = _mapper.Map<Director>(request);

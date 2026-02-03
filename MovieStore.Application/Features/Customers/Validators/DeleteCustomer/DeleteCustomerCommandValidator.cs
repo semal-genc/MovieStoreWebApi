@@ -8,7 +8,7 @@ namespace MovieStore.Application.Features.Customers.Validators.DeleteCustomer
         public DeleteCustomerCommandValidator()
         {
             RuleFor(x => x.CustomerId)
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Geçerli bir CustomerId girilmelidir.");
         }
     }
 }

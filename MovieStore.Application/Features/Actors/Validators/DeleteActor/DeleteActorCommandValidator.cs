@@ -8,7 +8,8 @@ namespace MovieStore.Application.Features.Actors.Validators.DeleteActor
         public DeleteActorCommandValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThan(0);
+                .GreaterThan(0)
+                .WithMessage("Oyuncu Id değeri 0'dan büyük olmalıdır.");
         }
     }
 }

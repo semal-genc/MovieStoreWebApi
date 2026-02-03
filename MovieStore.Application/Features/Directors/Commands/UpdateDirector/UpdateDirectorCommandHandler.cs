@@ -24,12 +24,9 @@ namespace MovieStore.Application.Features.Directors.Commands.UpdateDirector
             if (director is null)
                 throw new InvalidOperationException("Yönetmen bulunamadı.");
 
-            if (director.FirstName == request.FirstName &&
-    director.LastName == request.LastName)
-{
-    throw new InvalidOperationException("Herhangi bir değişiklik yapılmadı.");
-}
-
+            if (director.FirstName.Equals(request.FirstName,StringComparison.OrdinalIgnoreCase) 
+                && director.LastName.Equals(request.LastName, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException("Herhangi bir değişiklik yapılmadı.");
 
             _mapper.Map(request, director);
 

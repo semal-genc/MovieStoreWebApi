@@ -25,7 +25,8 @@ namespace MovieStore.Application.Features.Actors.Commands.UpdateActor
             if (actor is null)
                 throw new InvalidOperationException("Oyuncu bulunamadı.");
 
-            if (actor.FirstName == request.FirstName && actor.LastName == request.LastName)
+            if (actor.FirstName.Equals(request.FirstName, StringComparison.OrdinalIgnoreCase) &&
+                actor.LastName.Equals(request.LastName, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidOperationException("Herhangi bir değişiklik yapılmadı.");
                 
             _mapper.Map(request, actor);

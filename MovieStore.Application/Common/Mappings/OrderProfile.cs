@@ -11,7 +11,10 @@ namespace MovieStore.Application.Common.Mappings
         {
             CreateMap<BuyMovieCommand, Order>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Price, opt => opt.Ignore());
+                .ForMember(dest => dest.Price, opt => opt.Ignore())
+                .ForMember(dest => dest.Customer, opt => opt.Ignore())
+                .ForMember(dest => dest.Movie, opt => opt.Ignore())
+                .ForMember(dest => dest.PurchaseDate, opt => opt.Ignore());
         }
     }
 }

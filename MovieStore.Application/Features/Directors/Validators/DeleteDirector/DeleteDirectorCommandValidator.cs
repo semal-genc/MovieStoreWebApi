@@ -8,7 +8,7 @@ namespace MovieStore.Application.Features.Directors.Validators.DeleteDirector
         public DeleteDirectorCommandValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThan(0);
+                .GreaterThan(0).WithMessage("Geçerli bir DirectorId girilmelidir.");
         }
     }
 }
